@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './styles/index.css';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+
+const user = [
+  {
+    firstName: "Nicole",
+    lastName: "Zambrano"
+  },
+  {
+    firstName: "Juanito",
+    lastName: "Perez"
+  },
+  {
+    firstName: "Susana",
+    lastName: "Muñoz"
+  },
+]
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App users={user} question='¿Cómo estás?'/>
   </React.StrictMode>,
   document.getElementById('root')
 );
