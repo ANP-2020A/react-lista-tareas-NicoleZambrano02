@@ -3,7 +3,6 @@ import React from 'react';
 
 const TodoList = ( ) => {
 
-
   const [ todo, setTodo ] = React.useState([]);
   const [ complete, setComplete ] = React.useState([]);
 

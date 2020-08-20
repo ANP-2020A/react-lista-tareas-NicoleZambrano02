@@ -7,7 +7,7 @@ const App = ( props ) => {
 
   return <>
     <UserList users={ props.users } />
-    <TodoList />
+    <TodoList users={ props.users } />
   </>;
 
 
