@@ -1,10 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import '../styles/todo-list.css';
 
 
-const TodoList = ( ) => {
+const TodoList = () => {
 
-  const [ todo, setTodo ] = React.useState([]);
-  const [ complete, setComplete ] = React.useState([]);
+  const [ todo, setTodo ] = useState( [] );
+  const [ complete, setComplete ] = useState( [] );
+  const [ darkMode, setDarkMode ] = useState( false );
+  const [ userInfo, setUserInfo ] = useState( null );
+  const [ windowWidth, setWindowWidth ] = useState( window.innerWidth );
+
+
+  useEffect( () => {
+    const getData = async() => {
+      const data = await fetch( 'https://jsonplaceholder.typicode.com/users/1' );
+      const dataJson = await data.json();
+      setUserInfo( dataJson );
+      console.log( dataJson );
+    };
+    getData();
+  }, [] );
+
+
+  useEffect( () => {
+    console.log( 'efecto', todo.length );
+    if( todo.length > 0 ) {
+      document.title = `${ todo.length } tareas pendientes`;
+    } else {
+      document.title = `No tienes tareas pendientes`;
+    }
+  }, [ todo ] );
+
+  useEffect( () => {
+    console.log( 'CAMBIO A ', darkMode
+      ? 'DARK MODE'
+      : 'LIGHT MODE' );
+  }, [ darkMode ] );
+
+  useEffect( () => {
+    console.log( 'EL COMPONENTE SE MONTÓ' );
+
+    window.addEventListener( 'resize', handleResize );
+
+    return () => {
+      console.log( 'EL COMPONENTE SE DESMONTÓ' );
+      window.removeEventListener( 'resize', handleResize );
+    };
+  } );
 
   const handleAddTodo = () => {
 
@@ -19,25 +61,53 @@ const TodoList = ( ) => {
     ] );
   };
 
-  const handleDeleteTodo = (index) => {
+  const handleDeleteTodo = ( index ) => {
 
     setTodo( ( prevState ) => {
       return prevState.filter( ( nameTodo, i ) => i !== index );
     } );
   };
 
-  const handleCompleteTask = (index) => {
+  const handleCompleteTask = ( index ) => {
 
     setComplete( ( prevState ) => [
       ...prevState,
-      todo[index]
+      todo[ index ]
     ] );
 
     handleDeleteTodo( index );
   };
 
+  const handleDarkMode = () => {
+    setDarkMode( !darkMode );
+  };
+
+  const handleResize = () => {
+    console.log( window.innerWidth );
+    setWindowWidth( window.innerWidth );
+  };
+
   return (
-    <div>
+    <div className={ darkMode
+      ? 'dark-mode'
+      : '' }>
+
+      <h1>El ancho de la ventana es: { windowWidth }</h1>
+
+      <div>
+        <h1>Lista de Usuarios</h1>
+        <ul>
+          <li>
+          </li>
+        </ul>
+      </div>
+
+      <button onClick={ handleDarkMode }>
+        Cambiar a modo { darkMode
+        ? 'claro'
+        : 'oscuro' }
+      </button>
+
       <div>
         <label htmlFor='nameTodo'>Nombre de la Tarea</label>
         <input type='text' id='nameTodo' />
@@ -52,8 +122,8 @@ const TodoList = ( ) => {
           todo.map( ( todo, index ) => (
               <li key={ index }>
                 { todo.nameTodo }
-                <button onClick={ () => handleDeleteTodo(index) }>Eliminar</button>
-                <button onClick={ () => handleCompleteTask(index) }>Completada</button>
+                <button onClick={ () => handleDeleteTodo( index ) }>Eliminar</button>
+                <button onClick={ () => handleCompleteTask( index ) }>Completada</button>
               </li>
 
             )
