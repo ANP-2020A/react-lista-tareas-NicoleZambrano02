@@ -50,12 +50,11 @@ const TodoList = () => {
 
   const handleAddTodo = () => {
 
-    const nameTodo = document.querySelector( '#nameTodo' ).value;
+    const title = document.querySelector( '#nameTodo' ).value;
 
     setTodo( ( prevState ) => [
       ...prevState,{
-        nameTodo,
-        completed : false
+        title
       }
     ] );
   };
