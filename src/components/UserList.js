@@ -6,8 +6,6 @@ const UserList = ( props ) => {
 
   const initialUsers = () => {
 
-    console.log( 'inicializando estado' );
-
     return [
       {
         name: 'Nicole',
